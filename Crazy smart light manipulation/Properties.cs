@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -18,23 +19,35 @@ namespace NanoleafSpace
         internal Nano_Types Nanotype = Nano_Types.Shapes;
 
 
+
         public Nanoleaf(string IpAddress, int Port = 16021)
         {
             this.IpAddress = IpAddress;
             this.Port = Port;
-            Setup();
         }
 
-        private async void Setup()
+        public async Task Setup()
         {
-            if (!Directory.Exists("Devices"))
+            if (File.Exists(Path.Join("Devices",IpAddress)))
             {
-                Directory.CreateDirectory("Devices");
+                Console.WriteLine("File exists. loading ...");
+                string props = File.ReadAllText(Path.Join("Devices", IpAddress));
+                Load(JObject.Parse(props));
             }
-
-            await GetAuthToken();
-
+            else
+            {
+                Console.WriteLine("New Device");
+                await GetAuthToken();
+                Save();
+            }
+      
         }
+        
+        public override string ToString()
+        {
+            return $"Nanoleaf IP: {IpAddress}\nNanoleaf Port: {Port}\nAuthToken: {AuthToken}\n\nType: {Nanotype}";
+        }
+
 
     }
     

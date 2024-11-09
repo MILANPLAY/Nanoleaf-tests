@@ -3,7 +3,7 @@ namespace NanoleafSpace
 {
     enum Nano_Types
     {
-        Shapes,
+        Shapes = 0,
 
     }
 }

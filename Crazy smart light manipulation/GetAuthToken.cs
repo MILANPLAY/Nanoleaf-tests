@@ -12,12 +12,10 @@ namespace NanoleafSpace
     public partial class Nanoleaf
     {
 
-
-
-
-
-        public async Task GetAuthToken()
+        private async Task GetAuthToken()
         {
+            Console.WriteLine("Hold the power button until the lights on the controler flash. Then pres ENTER");
+            Console.ReadLine();
             if (!string.IsNullOrEmpty(IpAddress))
             {
                 string url = $"http://{IpAddress}:{Port}/api/v1/new";
